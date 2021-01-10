@@ -13,7 +13,16 @@ class Customer_view(viewsets.ModelViewSet):
 	permission_classes=[]
 	queryset = Customer.objects.all()
 	serializer_class = CustomerSerializer
-	
+
+	@action(detail=False, methods=['post'])
+	def generate_otp(self, request):
+		serializer = OtpSerializer(data=request.data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data, status=200)
+		else:
+			return Response({'status': 'failure', 'errors': serializer.errors}, status=400)	
+
 	@action(detail=False, methods=['post'])
 	def signup(self, request):
 		serializer = CustomerSignUpSerializer(data=request.data)
