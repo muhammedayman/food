@@ -23,16 +23,18 @@ class Staff(BaseModel):
 		('SUPERVISOR', "Supervisor"),
 		('EMPLOYEE', 'Employee')
 	]
+	CHOICE_TYPES = [
+		('VENDOR', 'Vendor'),
+		('DELIVERY', 'Deliver'),
+	]
 	auth_user = models.OneToOneField(User, on_delete=models.CASCADE)
 	name = models.CharField(max_length=100)
 	phone_number = models.CharField(max_length= 15, null=True, blank=True)
 	email = models.CharField(max_length=50)
-	employee_id = models.CharField(max_length=50, null=True, blank=True)
+	employee_code = models.CharField(max_length=50, null=True, blank=True)
 	active = models.BooleanField(default = True)
-	employer_content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-	employer_id = models.PositiveIntegerField()
-	employer = GenericForeignKey('employer_content_type', 'employer_id')
 	role = models.CharField(null=True, blank=True, choices=ROLES, max_length=20)
+	user_category = models.CharField(null=True, blank=True, choices=CHOICE_TYPES, max_length=20)
 	picture=models.ImageField(upload_to='pictures/%d/%m/%Y',max_length=255, null=True, blank=True)
 
 
@@ -43,8 +45,6 @@ class Staff(BaseModel):
 		return self.name
 	objects = StaffManager()
 
-	def vendor(self):
-		if self.employer_content_type.model == 'vendors':
-			return self.employer
-		else:
-			return self.employer.vendor
+	@property
+	def is_active(self):
+		return self.active

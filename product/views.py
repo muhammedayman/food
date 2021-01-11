@@ -13,4 +13,10 @@ class ProductViewSet(viewsets.ModelViewSet):
 	filter_backends = [DjangoFilterBackend, filters.SearchFilter]
 	filterset_fields = ['price']
 	search_fields = ['^product_code',]
-    serializer_class=ProductDetailSerializer
+	authentication_classes=[JWTCustomerAuthentication,JWTAuthentication]
+	permission_classes=[]
+	
+	def get_serializer_class(self):
+		if self.action == 'create' or self.action == 'update':
+			return ProductSaveSerializer
+		return ProductDetailSerializer
