@@ -23,7 +23,6 @@ class StaffSignup(viewsets.ModelViewSet):
 
 	def get_serializer_class(self):
 		if self.action == 'create':
-			import pdb ; pdb.set_trace()
 			return StaffCreateSerializer
 		return StaffSerializer
 
