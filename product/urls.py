@@ -1,11 +1,12 @@
 from rest_framework import routers
 from django.urls import path
-from .views import ProductViewSet
+from .views import ProductViewSet,CategoryViewSet
 from fooddelivery import settings
 from django.conf.urls.static import static
 
 router = routers.SimpleRouter()
 router.register(r'products', ProductViewSet, basename='products')
+router.register(r'categories', CategoryViewSet, basename='products')
 urlpatterns = router.urls
 
 if True:

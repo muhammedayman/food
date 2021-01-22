@@ -1,18 +1,24 @@
 from rest_framework import serializers
-from .models import Product,Category
+from .models import Product,Category,FoodType
 from drf_writable_nested.serializers import WritableNestedModelSerializer
 
-class CategorySerializer(serializers.ModelSerializer):
+class FoodTypeSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = FoodType
+		exclude = ('created_at', 'updated_at')	
+class CategorySaveSerializer(WritableNestedModelSerializer,serializers.ModelSerializer):
+	food_type=FoodTypeSerializer(required=True)
 	class Meta:
 		model = Category
 		exclude = ('created_at', 'updated_at')	
 class CategoryDetailSerializer(serializers.ModelSerializer):
+	food_type=FoodTypeSerializer(required=True)
 	class Meta:
 		model = Category
 		exclude = ('created_at', 'updated_at')	
 
-class ProductSaveSerializer(WritableNestedModelSerializer,serializers.ModelSerializer):
-	product_type=CategorySerializer(required=True)
+class ProductSaveSerializer(serializers.ModelSerializer):
+	product_type=serializers.PrimaryKeyRelatedField(read_only=True)
 	class Meta:
 		model = Product
 		exclude = ('created_at', 'updated_at')	

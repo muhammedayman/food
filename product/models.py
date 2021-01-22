@@ -33,11 +33,20 @@ class Product(BaseModel):
 	class Meta:
 		db_table = 'products'
 
-class Category(BaseModel):
+class FoodType(BaseModel):
 	title=models.CharField(max_length=100,null=True, blank=True)
 	slug=models.CharField(max_length=100,null=True, blank=True)
 	context_text=models.CharField(max_length=100,null=True, blank=True)
 
+	class Meta:
+		db_table = 'food_types'
+
+class Category(BaseModel):
+	title=models.CharField(max_length=100,null=True, blank=True)
+	slug=models.CharField(max_length=100,null=True, blank=True)
+	context_text=models.CharField(max_length=100,null=True, blank=True)
+	food_type=models.ForeignKey("product.FoodType", on_delete=models.CASCADE,related_name="food_type")
+	
 	class Meta:
 		db_table = 'categorys'
 

@@ -11,8 +11,8 @@ from .serializer import *
 class ProductViewSet(viewsets.ModelViewSet):
 	queryset = Product.objects.all()
 	filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-	filterset_fields = ['price']
-	search_fields = ['^product_code',]
+	filterset_fields = ['price','product_type__title']
+	search_fields = ['^product_type__title',]
 	authentication_classes=[JWTCustomerAuthentication,JWTAuthentication]
 	permission_classes=[]
 	
@@ -20,3 +20,15 @@ class ProductViewSet(viewsets.ModelViewSet):
 		if self.action == 'create' or self.action == 'update':
 			return ProductSaveSerializer
 		return ProductDetailSerializer
+class CategoryViewSet(viewsets.ModelViewSet):
+	queryset = Category.objects.all()
+	filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+	filterset_fields = ['food_type__title',]
+	search_fields = ['^food_type__title',]
+	authentication_classes=[JWTCustomerAuthentication,JWTAuthentication]
+	permission_classes=[]
+	
+	def get_serializer_class(self):
+		if self.action == 'create' or self.action == 'update':
+			return CategorySaveSerializer
+		return CategoryDetailSerializer
