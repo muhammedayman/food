@@ -40,6 +40,7 @@ class FoodType(BaseModel):
 
 	class Meta:
 		db_table = 'food_types'
+		unique_together = ('title', 'slug',)
 
 class Category(BaseModel):
 	title=models.CharField(max_length=100,null=True, blank=True)
@@ -49,4 +50,4 @@ class Category(BaseModel):
 	
 	class Meta:
 		db_table = 'categorys'
-
+		unique_together = ('title', 'slug',)
