@@ -13,7 +13,7 @@ class Customer(BaseModel):
 	phone_number =  models.CharField(max_length=20, unique=True, db_index=True)
 	last_login_at = models.DateTimeField(null=True)
 	is_active = models.BooleanField(default=True)
-	# draft_trip = models.ForeignKey('trips.Trip', on_delete=models.CASCADE, null=True)
+	draft_order = models.ForeignKey('orders.Orders', on_delete=models.CASCADE, null=True)
 	uid = models.UUIDField(default=uuid.uuid4,unique=True)
 
 	def generate_token(self):

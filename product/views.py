@@ -11,7 +11,7 @@ from .serializer import *
 class ProductViewSet(viewsets.ModelViewSet):
 	queryset = Product.objects.all()
 	filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-	filterset_fields = ['price','product_type__title']
+	filterset_fields = ['price','product_type__title','product_type__food_type__title']
 	search_fields = ['^product_type__title',]
 	authentication_classes=[JWTCustomerAuthentication,JWTAuthentication]
 	permission_classes=[]
